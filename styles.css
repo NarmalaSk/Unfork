@@ -1,0 +1,40 @@
+.main{
+    position: relative;
+    font-style: italic;
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    text-align: center;
+    margin: 43px 0;
+    top: 33px;
+    color: white
+}
+.button{
+    text-align: center;
+    color:aliceblue;
+    button{
+        background-color: #4CAF50;
+        border: none;
+        border-radius: 50px;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+    }
+    button:hover{
+        background-color: #45a049;
+    }
+    button:active{
+        background-color: #3e8e41;
+        transform: translateY(4px);
+    }
+    button:focus{
+        outline: none;
+    }
+    button:hover{
+        background-color: #45a049;
+    }
+}
