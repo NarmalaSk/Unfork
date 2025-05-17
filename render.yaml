@@ -2,10 +2,11 @@ services:
   - type: web
     name: github-repo-manager
     env: python
-    buildCommand: ""
-    startCommand: "uvicorn main:app --host 0.0.0.0 --port 10000"
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "uvicorn main:app --host 0.0.0.0 --port $PORT"
     envVars:
       - key: GITHUB_CLIENT_ID
-        value: Ov23lii4v3cQks8L83IR
+        sync: false
       - key: GITHUB_CLIENT_SECRET
-        value: 451293f51812b50ca024055785050db903f39e6c
+        sync: false
+    plan: free
