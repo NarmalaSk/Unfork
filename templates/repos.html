@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Your GitHub Repositories</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #121212;
+            color: #f1f1f1;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #ffffff;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 30px auto;
+            background: #1e1e1e;
+            padding: 20px 30px;
+            border-radius: 12px;
+            box-shadow: 0 0 12px rgba(0,0,0,0.6);
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: none;
+            border-radius: 6px;
+            background-color: #2b2b2b;
+            color: #f1f1f1;
+            font-size: 16px;
+        }
+
+        .repo-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #333;
+        }
+
+        .repo-item:last-child {
+            border-bottom: none;
+        }
+
+        .repo-item input {
+            margin-right: 12px;
+            transform: scale(1.2);
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin-top: 20px;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Select Repositories to Unfork</h1>
+
+    <form method="post" action="/delete_repos">
+        
+        <input type="text" id="searchInput" class="search-bar" placeholder="Search repositories...">
+
+        <div id="repoList">
+            {% for repo in repos %}
+                <div class="repo-item">
+                    <input type="checkbox" name="repo_names" value="{{ repo.full_name }}">
+                    <span>{{ repo.full_name }}</span>
+                </div>
+            {% endfor %}
+        </div>
+
+        <input type="hidden" name="access_token" value="{{ token }}">
+
+        <button type="submit">Unfork Selected Repositories</button>
+    </form>
+
+    <script>
+        const searchInput = document.getElementById('searchInput');
+        const repoList = document.getElementById('repoList');
+        const repoItems = repoList.getElementsByClassName('repo-item');
+
+        searchInput.addEventListener('keyup', function() {
+            const filter = searchInput.value.toLowerCase();
+            Array.from(repoItems).forEach(item => {
+                const text = item.textContent.toLowerCase();
+                if (text.includes(filter)) {
+                    item.style.display = '';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
