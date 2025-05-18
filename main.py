@@ -74,7 +74,11 @@ async def delete_repos(
     access_token: str = Form(...)
 ):
     if not repo_names:
-        return HTMLResponse(content="<h2>No repositories selected.</h2>", status_code=400)
+        return templates.TemplateResponse("message.html", {
+            "request": request,
+            "message": "⚠️ No repositories selected.",
+            "status_class": "error"
+        })
 
     headers = {"Authorization": f"token {access_token}"}
     failed = []
@@ -83,9 +87,17 @@ async def delete_repos(
         resp = requests.delete(delete_url, headers=headers)
         if resp.status_code not in (204, 202):
             failed.append(repo_full_name)
+
     if failed:
-        return HTMLResponse(
-            content=f"<h2>Failed to delete: {', '.join(failed)}</h2>",
-            status_code=400
-        )
-    return HTMLResponse(content="<h2>Selected repositories deleted successfully.</h2>")
+        failed_repos = ', '.join(failed)
+        return templates.TemplateResponse("message.html", {
+            "request": request,
+            "message": f"❌ Failed to delete: {failed_repos}",
+            "status_class": "error"
+        })
+
+    return templates.TemplateResponse("message.html", {
+        "request": request,
+        "message": "✅ Selected repositories deleted successfully!",
+        "status_class": "success"
+    })
